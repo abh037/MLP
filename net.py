@@ -1,5 +1,6 @@
 import numpy as np
 from random import choices
+from keras import datasets
 np.seterr(all='ignore')
 
 
@@ -36,7 +37,7 @@ class Net():
 
     def forward(self, X):
         self.a[0] = X.flatten().reshape(self.input_size, 1)
-        self.z[0] = np.empty((1, 784))
+        self.z[0] = np.empty((1, self.input_size))
 
         for i in range(1, len(self.structure)):
             self.z[i] = np.dot(self.W[i], self.a[i - 1]).T + self.b[i]
@@ -73,20 +74,19 @@ class Net():
             
             running_error = running_error / batch_size
             
-            if verbose:
-                acc = 0
-                for X, y in zip(test_X, test_y):
-                    if self.predict(X) == y:
-                        acc += 1
-                        
-                acc = 100 * acc / len(test_X)
-                    
-                epoch_string = str(ep + 1) + "/" + str(epochs)
-                error_string = str(running_error)[:7]
-                accuracy_string = str(acc)[:4] + "%"
-                print("Epoch: " + epoch_string + ", Error: " + error_string + ", Accuracy: " + accuracy_string, end = '\r')
+            print("Epoch: " + str(ep + 1) + "/" + str(epochs) + ", Error: " + str(running_error)[:7], end = '\r')
+        print()
         
-        if verbose:
-            print("\nTraining complete.")
 
+(trainx, trainy), (testx, testy) = datasets.mnist.load_data()
 
+my_net = Net([784, 1024, 10])
+my_net.train(trainx, trainy, epochs = 50)
+
+avg = 0
+for x, y in zip(testx, testy):
+    if my_net.predict(x) == y:
+        avg += 1
+avg = 100 * avg/len(testx)
+
+print("mnist accuracy: " + str(avg)[:4] + "%")
