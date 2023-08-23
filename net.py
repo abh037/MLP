@@ -54,6 +54,13 @@ class Net():
 
     def predict(self, X):
         return np.argmax(self.forward(X))
+        
+    def accuracy(self, dataset, labels):
+        avg = 0
+        for x, y in zip(dataset, labels):
+            if self.predict(x) == y:
+                avg += 1
+        return 100 * avg/len(dataset)
 
     def forward(self, X):
         self.a[0] = X.flatten().reshape(self.input_size, 1)
@@ -106,5 +113,7 @@ class Net():
             
             print("Epoch: " + str(ep + 1) + "/" + str(epochs) + ", Error: " + str(running_error)[:7], end = '\r')
         print()
+        
+        
     
 
