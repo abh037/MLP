@@ -1,7 +1,7 @@
 # MLP
 Self-implemented multi-layer perceptron.
 # Usage
-Create the net with `my_net = Net(structure = [784, 256, 10])` where `structure` is an array denoting the input size (first item), output size (last item), and hidden layer sizes (middle items). Instantiating the netowrk without specifying a structure will auto-generate a structure when the `train` method is called.
+Create the net with `my_net = Net(structure = [784, 256, 10])` where `structure` is an array denoting the input size (first item), output size (last item), and hidden layer sizes (middle items). Instantiating the network without specifying a structure (like so: `my_net = Net()`) will auto-generate a structure when the `train` method is called.
 The methods of the class are as follows:
 
 `sigmoid(self, x, der = False)` returns the sigmoid of `x`, or the derivative of the sigmoid of `x` if `der` is true.
