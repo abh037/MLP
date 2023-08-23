@@ -55,7 +55,7 @@ class Net():
     def predict(self, X):
         if len(self.structure) == 0:
             raise Exception("Can't predict with an untrained network!")
-        return np.argmax(self.forward(X))
+        return np.argmax(self.__forward(X))
         
     def accuracy(self, dataset, labels):
         avg = 0
@@ -64,7 +64,7 @@ class Net():
                 avg += 1
         return 100 * avg/len(dataset)
 
-    def forward(self, X):
+    def __forward(self, X):
         self.a[0] = X.flatten().reshape(self.input_size, 1)
         self.z[0] = np.empty((1, self.input_size))
 
@@ -101,8 +101,8 @@ class Net():
             
             for i, (X, y) in choices(list(enumerate(zip(reshaped_dataset, reshaped_labels))), k = batch_size):
             
-                error = np.square(np.subtract(y, self.forward(X))).mean()
-                dedz = np.subtract(y, self.forward(X))
+                error = np.square(np.subtract(y, self.__forward(X))).mean()
+                dedz = np.subtract(y, self.__forward(X))
                 
                 for i in range(len(self.structure) - 1, 0, -1):
                     self.W[i] += learning_rate * dedz.T.dot(self.a[i - 1].T)
