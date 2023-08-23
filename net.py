@@ -5,7 +5,7 @@ np.seterr(all='ignore')
 
 class Net():
 
-    def sigmoid(self, x, der = False):
+    def __sigmoid(self, x, der = False):
         sig = 1/(1+np.exp(-x))
         if der:
             return sig*(1 - sig)
@@ -70,7 +70,7 @@ class Net():
 
         for i in range(1, len(self.structure)):
             self.z[i] = np.dot(self.W[i], self.a[i - 1]).T + self.b[i]
-            self.a[i] = self.sigmoid(self.z[i]).T
+            self.a[i] = self.__sigmoid(self.z[i]).T
         return self.a[-1].T
 
     def train(self, dataset, labels, epochs = 50, batch_size = 1000):
@@ -107,7 +107,7 @@ class Net():
                 for i in range(len(self.structure) - 1, 0, -1):
                     self.W[i] += learning_rate * dedz.T.dot(self.a[i - 1].T)
                     self.b[i] += learning_rate * dedz
-                    dedz = np.multiply(dedz.dot(self.W[i]), self.sigmoid(self.z[i - 1], der = True))
+                    dedz = np.multiply(dedz.dot(self.W[i]), self.__sigmoid(self.z[i - 1], der = True))
                 
                 running_error += error
             
