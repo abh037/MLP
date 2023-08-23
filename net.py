@@ -53,6 +53,8 @@ class Net():
         self.b = biases
 
     def predict(self, X):
+        if len(self.structure) == 0:
+            raise Exception("Can't predict with an untrained network!")
         return np.argmax(self.forward(X))
         
     def accuracy(self, dataset, labels):
