@@ -64,7 +64,7 @@ class Net():
             self.a[i] = self.sigmoid(self.z[i]).T
         return self.a[-1].T
 
-    def train(self, dataset, labels, epochs = 50, batch_size = 1000, verbose = True):
+    def train(self, dataset, labels, epochs = 50, batch_size = 1000):
     
         if batch_size > len(dataset):
             batch_size = len(dataset)
